@@ -33,11 +33,11 @@ class Pki
 
   begin
     require 'base64'
-    def encrypt_64(data)
+    def encrypt64(data)
       Base64.encode64(encrypt(data))
     end
 
-    def decrypt_64(data)
+    def decrypt64(data)
       decrypt(Base64.decode64(data))
     end
   rescue LoadError

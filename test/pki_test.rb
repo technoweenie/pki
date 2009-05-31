@@ -12,8 +12,8 @@ class PkiTest < Test::Unit::TestCase
 
   def test_encrypts_with_public_key_and_decrypts_with_private_key_in_base64
     pki = Pki.new :private_key => $private_key, :public_key => $public_key
-    encrypted = pki.encrypt_64 'monkey'
-    assert_equal 'monkey', pki.decrypt_64(encrypted)
+    encrypted = pki.encrypt64 'monkey'
+    assert_equal 'monkey', pki.decrypt64(encrypted)
   end
 
   def test_creates_random_private_key
