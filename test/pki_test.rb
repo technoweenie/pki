@@ -9,4 +9,25 @@ class PkiEncryptTest < Test::Unit::TestCase
     assert_not_nil pki.private_key
     assert pki.private_key.private?
   end
+
+  def test_initializes_with_private_key_string
+    pki = Pki.new :private_key => $private_key
+    assert pki.private_key.private?
+    assert_equal $private_key, pki.private_key.to_s
+  end
+
+  def test_sets_private_key_string
+    pki = Pki.new
+    pki.private_key = $private_key
+    assert pki.private_key.private?
+    assert_equal $private_key, pki.private_key.to_s
+  end
+
+  def test_sets_private_key_stream
+    pki = Pki.new
+    io  = StringIO.new($private_key)
+    pki.private_key = io
+    assert pki.private_key.private?
+    assert_equal $private_key, pki.private_key.to_s
+  end
 end
