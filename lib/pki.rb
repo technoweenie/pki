@@ -18,6 +18,9 @@ class Pki
     if options.key?(:private_key)
       self.private_key = options[:private_key]
     end
+    if options.key?(:public_key)
+      self.public_key = options[:public_key]
+    end
   end
 
   def private_key
@@ -26,6 +29,14 @@ class Pki
 
   def private_key=(key = nil)
     @private_key = load_key(:private, key)
+  end
+
+  def public_key
+    @public_key ||= load_key(:public)
+  end
+
+  def public_key=(key = nil)
+    @public_key = load_key(:public, key)
   end
 
   def cert_type
@@ -38,17 +49,24 @@ class Pki
 
 private
   def load_key(type, key = nil)
-    case key
+    key = case key
       when String
         cert_type.new(key)
       when nil
-        cert_type.new(cert_size)
+        if type == :private
+          cert_type.new(cert_size)
+        else
+          private_key.public_key
+        end
       else
         if key.respond_to?(:read)
           load_key(type, key.read)
-        else
-          raise ArgumentError, "key should be a PKey, String, IO stream, or nil: #{key.inspect}"
         end
+    end
+    if !key || !key.send("#{type}?")
+      raise KeyTypeError, "#{type} key should be a valid PKey, String, IO stream, or nil: #{key.inspect}"
+    else
+      key
     end
   end
 end
