@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--inline-source", "--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.3}
-  s.summary = %q{TODO}
+  s.summary = %q{Amazingly simple pki encryption, using undocumented OpenSSL functions.}
 
   if s.respond_to? :specification_version then
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
