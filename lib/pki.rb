@@ -23,6 +23,26 @@ class Pki
     end
   end
 
+  def encrypt(data)
+    public_key.public_encrypt(data)
+  end
+
+  def decrypt(data)
+    private_key.private_decrypt(data)
+  end
+
+  begin
+    require 'base64'
+    def encrypt_64(data)
+      Base64.encode64(encrypt(data))
+    end
+
+    def decrypt_64(data)
+      decrypt(Base64.decode64(data))
+    end
+  rescue LoadError
+  end
+
   def private_key
     @private_key ||= load_key(:private)
   end
