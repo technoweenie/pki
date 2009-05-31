@@ -1,6 +1,24 @@
 = pki
 
-Description goes here.
+Amazingly simple pki encryption, using undocumented OpenSSL functions.  Use 
+public keys to encrypt data, and private keys to decrypt them.  
+
+  # uses a randomly generated RSA private key
+  pki = Pki.new
+  encrypted = pki.encrypt('monkey')
+  pki.decrypt(encrypted) == 'monkey'
+
+  # load a private key from a stream.
+  # if no public key is specified, a new one is created using the existing
+  # private key.
+  pki = Pki.new(:private_key => File.open('my_priv_key'))
+
+  # load private/public keys
+  pki = Pki.new :private_key => "-----BEGIN RSA PRIVATE KEY-----\n..."
+  pki.public_key = OpenSSL::PKey::RSA.new(...)
+
+  # you can pretty much load private keys from strings, from streams, or PKey 
+  objects that respond to #public_encrypt and #private_decrypt.
 
 == Copyright
 
